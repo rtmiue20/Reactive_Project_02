@@ -1,0 +1,22 @@
+-- User Story: "Là một User VIP, tôi muốn nhập 1 câu hỏi phức tạp và nhận câu trả lời đồng thời từ cả GPT
+     và Gemini trên cùng một màn hình theo dạng gõ chữ thời gian thực (Stream), để tôi so sánh kết quả nhanh nhất."
+
+-- Nhiệm vụ của back-end là dùng WebClient gọi song song sang các AI và trộn dòng chảy bằng toán tử Flux.merge().
+    config: Nơi cấu hình các Bean toàn cục.
+     Ví dụ: Định nghĩa một WebClient.Builder dùng chung cho toàn bộ ứng dụng nhằm tối ưu hóa hiệu năng kết nối.
+
+    security: "Hàng rào bảo vệ" hệ thống.
+     Folder này giữ bộ lọc JWT giúp chặn đứng các request không hợp lệ trước khi chúng kịp chạm vào các hàm gọi AI tốn tiền phía sau.
+
+    model & repository: Bộ đôi làm việc với database MariaDB một cách non-blocking thông qua R2DBC.
+
+    service: Nơi chứa ma thuật chính của dự án!
+     Mọi logic liên quan đến việc kích hoạt song song các AI và dùng toán tử Flux.merge() để gom dòng chảy dữ liệu sẽ nằm trọn ở đây.
+
+    controller: Cổng tiếp nhận request.
+     Chịu trách nhiệm cấu hình và mở đường ống để truyền dữ liệu thời gian thực (SSE - Server-Sent Events) về cho Frontend.
+
+
+-- Front-end sẽ không dùng Axios hay Fetch thông thường (vì chúng bắt phải chờ tải xong hết mới hiển thị).
+    Front-end phải dùng EventSource để hứng Stream.
+
